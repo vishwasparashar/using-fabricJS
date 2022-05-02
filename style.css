@@ -1,0 +1,11 @@
+body {
+	background-color: rgba(0, 0, 0, 0.411);
+    display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+}
+#canvas {
+	border: 1px bold #000;
+	background-color: #fff;
+}
