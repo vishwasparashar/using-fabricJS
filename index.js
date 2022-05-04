@@ -18,20 +18,34 @@ uploader.onchange = function (e) {
 	reader.readAsDataURL(e.target.files[0]);
 };
 
-canvas.on('mouse:wheel', function(opt) {
+canvas.on("mouse:wheel", function (opt) {
 	var delta = opt.e.deltaY;
 	var zoom = canvas.getZoom();
-	const center=canvas.getCenter();
-	const center_point=new fabric.Point(center.left,center.top);
 	zoom *= 0.999 ** delta;
 	if (zoom > 20) zoom = 20;
 	if (zoom < 1) zoom = 1;
-	if(delta<1){
+	if (delta < 0) {
 		canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
-	}else{
-		canvas.zoomToPoint(   center_point,zoom);
-		 console.log(center_point );
+	} else {
+		canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+		var vpt = this.viewportTransform;
+		if (zoom * 0.4 * 0.01 < 400 / 1000) {
+			vpt[4] = 200 - (1000 * zoom * 0.4) / 2;
+			vpt[5] = 200 - (1000 * zoom * 0.4) / 2;
+		} else {
+			if (vpt[4] >= 0) {
+				vpt[4] = 0;
+			} else if (vpt[4] < canvas.getWidth() - 1000 * zoom * 0.4) {
+				vpt[4] = canvas.getWidth() - 1000 * zoom * 0.4;
+			}
+			if (vpt[5] >= 0) {
+				vpt[5] = 0;
+			} else if (vpt[5] < canvas.getHeight() - 1000 * zoom * 0.4) {
+				vpt[5] = canvas.getHeight() - 1000 * zoom * 0.4;
+			}
+		}
 	}
+
 	opt.e.preventDefault();
 	opt.e.stopPropagation();
-  });
+});
