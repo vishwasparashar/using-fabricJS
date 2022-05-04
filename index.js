@@ -8,8 +8,8 @@ uploader.onchange = function (e) {
 		image.onload = function () {
 			var img = new fabric.Image(image);
 			img.set({
-				left: 50,
-				top: 0,
+				left: 200,
+				top: 200,
 			});
 			img.scaleToWidth(400);
 			canvas.add(img).setActiveObject(img).renderAll();
@@ -21,10 +21,17 @@ uploader.onchange = function (e) {
 canvas.on('mouse:wheel', function(opt) {
 	var delta = opt.e.deltaY;
 	var zoom = canvas.getZoom();
+	const center=canvas.getCenter();
+	const center_point=new fabric.Point(center.left,center.top);
 	zoom *= 0.999 ** delta;
 	if (zoom > 20) zoom = 20;
 	if (zoom < 1) zoom = 1;
-	canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+	if(delta<1){
+		canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+	}else{
+		canvas.zoomToPoint(   center_point,zoom);
+		 console.log(center_point );
+	}
 	opt.e.preventDefault();
 	opt.e.stopPropagation();
   });
