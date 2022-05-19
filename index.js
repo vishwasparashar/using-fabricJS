@@ -29,7 +29,7 @@ canvas.on("mouse:wheel", function (opt) {
 	} else {
 		canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
 		var vpt = this.viewportTransform;
-		if (zoom * 0.7 * 0.01 < 700 / 1000) {
+		if (zoom  ==1) {
 			vpt[4] = 200 - (1000 * zoom * 0.4) / 2;
 			vpt[5] = 200 - (1000 * zoom * 0.4) / 2;
 		} else {
